@@ -8,8 +8,6 @@ random.shuffle(values)
 for key, value in cards.items():
     cards[key] = values.pop(0)
 
-print(cards)
-
 
 def matching(first, second):
     if cards[first] == cards[second]:
@@ -18,16 +16,16 @@ def matching(first, second):
         return False
 
 
-def game(first=input("iveskite pirma raide: "), second=input("iveskite antra raide: ")):
-    if matching(first, second) == True:
-        # del cards[first], cards[second]
-        print("super")
+def game():
+    while len(cards) >= 2:
+        first = input("iveskite pirma raide: ")
+        second = input("iveskite antra raide: ")
+        if matching(first, second):
+            del cards[first], cards[second]
+            print("super")
 
-    if matching(first, second) == False:
-        print("neteisingas spejimas")
+        else:
+            print("neteisingas spejimas")
 
-    if cards == {}:
-        print("laimejote")
-
-
-game()
+        if cards == {}:
+            print("laimejote")
