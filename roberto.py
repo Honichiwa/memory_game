@@ -70,7 +70,15 @@ def logika(b_key, number):
     
 
 # layout - jei imanoma - supaprastinti
-layout = [[sg.Button("", size=(10, 4), key="-"+str(matches[0])+"-", button_color = ('white')), sg.Button("", size=(10, 4), key="-"+str(matches[1])+"-", button_color = ('white')), sg.Button("", size=(10, 4), key="-"+str(matches[2])+"-", button_color = ('white')), sg.Button("", size=(10, 4), key="-"+str(matches[3])+"-", button_color = ('white'))]]
+layout = []
+row = []
+for match in range(0, 16):
+    button = sg.Button("", size=(10, 4), key="-"+str(matches[match])+"-", button_color = ('white'))
+    row.append(button)
+    if len(row) == 4:
+        layout.append(row)
+        row = []
+layout.append(row)
 
 window = sg.Window("Tile Matching Game", layout)
 
