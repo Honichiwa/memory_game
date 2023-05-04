@@ -41,13 +41,7 @@ layout1 = [
     ],
 ]
 layout2 = [
-    [
-        sg.Button(
-            size=(2, 2),
-            button_color=("white"),
-        )
-        for a in range(16)
-    ]
+    [[sg.Button(size=(5, 2), button_color=("white")) for a in range(4)] for b in range(4)]
 ]
 layout = [[sg.Col(layout1, p=0), sg.Col(layout2, p=0)]]
 # Sukuriamas langas
