@@ -18,6 +18,7 @@ def matching(first, second):
 
 def game():
     while len(cards) >= 2:
+        print(cards)
         first = input("iveskite pirma raide: ")
         second = input("iveskite antra raide: ")
         if matching(first, second):
@@ -29,3 +30,6 @@ def game():
 
         if cards == {}:
             print("laimejote")
+
+
+game()
