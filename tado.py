@@ -2,22 +2,22 @@ import random
 import time
 
 cards = {
-    (0, 0): 1,
-    (0, 1): 1,
-    (0, 2): 2,
-    (0, 3): 2,
-    (1, 0): 3,
-    (1, 1): 3,
-    (1, 2): 4,
-    (1, 3): 4,
-    (2, 0): 5,
-    (2, 1): 5,
-    (2, 2): 6,
-    (2, 3): 6,
-    (3, 0): 7,
-    (3, 1): 7,
-    (3, 2): 8,
-    (3, 3): 8,
+    (0, 0): "green",
+    (0, 1): "green",
+    (0, 2): "red",
+    (0, 3): "red",
+    (1, 0): "yellow",
+    (1, 1): "yellow",
+    (1, 2): "blue",
+    (1, 3): "blue",
+    (2, 0): "orange",
+    (2, 1): "orange",
+    (2, 2): "pink",
+    (2, 3): "pink",
+    (3, 0): "teal",
+    (3, 1): "teal",
+    (3, 2): "cyan",
+    (3, 3): "cyan",
 }
 values = list(cards.values())
 
@@ -32,11 +32,6 @@ def matching(first, second):
         return True
     else:
         return False
-
-
-# def hold(first_e, sencond_e):
-#     if first_e in cards:
-#         first_
 
 
 def kordinate(x, y):
