@@ -48,7 +48,7 @@ layout1 = [
 layout2 = [
     [
         sg.Button(
-            "",
+            button_text=" ",
             size=(15, 7),
             button_color=("white"),
             key=(row, col),
@@ -63,32 +63,52 @@ layout = [[sg.Col(layout1, p=0), sg.Col(layout2, p=0, visible=False, key="-COL2-
 window = sg.Window("Tile Memory Game", layout, size=(800, 600))
 # Atvaizduojame ir bendraujame su langu, naudodami įvykių kilpą
 previous_event = None
+score = 0
 while True:
     event, values = window.read()
     # Žiūrime, ar vartotojas nori išeiti, ar langas buvo uždarytas
-    if event == sg.WINDOW_CLOSED or event == "-EXIT-":
-        break
+
     # Išvedame pranešimą į langą
     if event == "-new game-":
         window["-COL2-"].update(visible=True)
-    # print((event[0], event[1]))
     if event in be.cards:
+        sg.TimerStart
+        current_time = time.time()
         print(be.cards[event])
+        window.read(timeout=100)
+        print("pirmas if")
+        window[event].update(button_color="white")
         if previous_event:
-            if be.cards[event] == be.cards[previous_event]:
-                print("sutampa")
+            window[previous_event].update(button_color="white")
+
+            if be.cards[event] == be.cards[previous_event] and event != previous_event:
+                score += 8
                 window[previous_event].update(disabled=True)
                 window[event].update(disabled=True)
-                window[event].update(be.cards[event])
-                window[previous_event].update(be.cards[event])
-
-            else:
-                window[previous_event].update(disabled=False)
+                window[event].update(button_color=be.cards[event])
+                window[previous_event].update(button_color=be.cards[event])
                 previous_event = None
-        else:
-            window[event].update(disabled=True)
-            previous_event = event
+                print(score)
+            else:
+                window[event].update(button_color=be.cards[event])
+                window.read(timeout=400)
+                print("pirmas else")
+                window[event].update(button_color="white")
+                previous_event = None
 
+        else:
+            previous_event = event
+            window[event].update(button_color=be.cards[event])
+            print("antras else")
+
+    if score == 8:
+        finish_time = time.time()
+        total_time = finish_time - current_time
+        sg.TimerStop
+        sg.popup(f"Sveikiname jus laimejote, jusu laikas: {total_time:.2f}")
+        score = 0
+    if event == sg.WINDOW_CLOSED or event == "-EXIT-":
+        break
     # window["-Output-"].update("Game starting...")
 
 window.close()
