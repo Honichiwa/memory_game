@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 
-# import tado as be
+import tado as be
 import time
 
 
@@ -48,10 +48,13 @@ layout1 = [
 layout2 = [
     [
         sg.Button(
+            "",
             size=(15, 7),
             button_color=("white"),
+            key=(row, col),
+            disabled=False,
         )
-        for a in range(4)
+        for row in range(4)
     ]
     for col in range(4)
 ]
@@ -59,6 +62,7 @@ layout = [[sg.Col(layout1, p=0), sg.Col(layout2, p=0, visible=False, key="-COL2-
 # Sukuriamas langas
 window = sg.Window("Tile Memory Game", layout, size=(800, 600))
 # Atvaizduojame ir bendraujame su langu, naudodami įvykių kilpą
+previous_event = None
 while True:
     event, values = window.read()
     # Žiūrime, ar vartotojas nori išeiti, ar langas buvo uždarytas
@@ -67,6 +71,24 @@ while True:
     # Išvedame pranešimą į langą
     if event == "-new game-":
         window["-COL2-"].update(visible=True)
+    # print((event[0], event[1]))
+    if event in be.cards:
+        print(be.cards[event])
+        if previous_event:
+            if be.cards[event] == be.cards[previous_event]:
+                print("sutampa")
+                window[previous_event].update(disabled=True)
+                window[event].update(disabled=True)
+                window[event].update(be.cards[event])
+                window[previous_event].update(be.cards[event])
+
+            else:
+                window[previous_event].update(disabled=False)
+                previous_event = None
+        else:
+            window[event].update(disabled=True)
+            previous_event = event
+
     # window["-Output-"].update("Game starting...")
 
 window.close()
