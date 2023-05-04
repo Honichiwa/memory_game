@@ -1,6 +1,24 @@
 import random
+import time
 
-cards = {"a": 1, "b": 1, "c": 2, "d": 2, "e": 3, "f": 3, "g": 4, "h": 4}
+cards = {
+    (0, 0): 1,
+    (0, 1): 1,
+    (0, 2): 2,
+    (0, 3): 2,
+    (1, 0): 3,
+    (1, 1): 3,
+    (1, 2): 4,
+    (1, 3): 4,
+    (2, 0): 5,
+    (2, 1): 5,
+    (2, 2): 6,
+    (2, 3): 6,
+    (3, 0): 7,
+    (3, 1): 7,
+    (3, 2): 8,
+    (3, 3): 8,
+}
 values = list(cards.values())
 
 random.shuffle(values)
@@ -16,11 +34,17 @@ def matching(first, second):
         return False
 
 
-def game():
+# def hold(first_e, sencond_e):
+#     if first_e in cards:
+#         first_
+
+
+def kordinate(x, y):
+    return (x, y)
+
+
+def game(first, second):
     while len(cards) >= 2:
-        print(cards)
-        first = input("iveskite pirma raide: ")
-        second = input("iveskite antra raide: ")
         if matching(first, second):
             del cards[first], cards[second]
             print("super")
@@ -30,6 +54,3 @@ def game():
 
         if cards == {}:
             print("laimejote")
-
-
-game()
