@@ -18,16 +18,16 @@ def matching(first, second):
         return False
 
 
-def game(first=input("iveskite pirma raide: "), second=input("iveskite antra raide: ")):
-    if matching(first, second) == True:
-        # del cards[first], cards[second]
-        print("super")
-
-    if matching(first, second) == False:
-        print("neteisingas spejimas")
-
-    if cards == {}:
-        print("laimejote")
-
+def game():
+    while len(cards) >= 2:
+        first = input("Įveskite pirma raide: ")
+        second = input("Įveskite antra raide: ")
+        if matching(first, second):
+            del cards[first], cards[second] 
+            print("Super! Jūs atspėjote porą.")
+            print(cards)
+        else:
+            print("Neteisingas spejimas.")
+    print("Laimėjote!")
 
 game()
