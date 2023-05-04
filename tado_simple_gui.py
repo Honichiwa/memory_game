@@ -49,7 +49,7 @@ layout2 = [
     [
         sg.Button(
             "",
-            size=(15, 7),
+            size=(16, 8),
             button_color=("white"),
             key=(row, col),
             disabled=False,
@@ -60,7 +60,7 @@ layout2 = [
 ]
 layout = [[sg.Col(layout1, p=0), sg.Col(layout2, p=0, visible=False, key="-COL2-")]]
 # Sukuriamas langas
-window = sg.Window("Tile Memory Game", layout, size=(800, 600))
+window = sg.Window("Tile Memory Game", layout, size=(900, 700))
 # Atvaizduojame ir bendraujame su langu, naudodami įvykių kilpą
 previous_event = None
 while True:
@@ -77,7 +77,7 @@ while True:
         if previous_event:
             if be.cards[event] == be.cards[previous_event]:
                 print("sutampa")
-                window[previous_event].update(disabled=True)
+                window[previous_event].update(disabled=True, image_filename='134.png')
                 window[event].update(disabled=True)
                 window[event].update(be.cards[event])
                 window[previous_event].update(be.cards[event])
