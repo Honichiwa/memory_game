@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
+import json
 
-import tado as be
+import back_end as be
 import time
 
 
@@ -36,7 +37,7 @@ layout1 = [
         sg.Text("", size=(5, 0)),
     ],
     [
-        sg.Output(s=(19, 20)),
+        sg.Output(s=(19, 20), key="-output-"),
     ],
     [
         sg.Button(
@@ -52,7 +53,7 @@ layout1 = [
 layout2 = [
     [
         sg.Button(
-            "",
+            button_text=" ",
             size=(16, 8),
             button_color=("white"),
             key=(row, col),
@@ -65,53 +66,74 @@ layout2 = [
 ]
 layout = [[sg.Col(layout1, p=0), sg.Col(layout2, p=0, visible=False, key="-COL2-")]]
 # Sukuriamas langas
-window = sg.Window("Tile Memory Game", layout, size=(900, 700))
+window = sg.Window("Tile Memory Game", layout, size=(850, 620))
 # Atvaizduojame ir bendraujame su langu, naudodami įvykių kilpą
 previous_event = None
 score = 0
-highscores = [25, 68]
+highscores = []
 while True:
     event, values = window.read()
     # Žiūrime, ar vartotojas nori išeiti, ar langas buvo uždarytas
-    if event == sg.WINDOW_CLOSED or event == "-EXIT-":
-        break
+
     # Išvedame pranešimą į langą
     if event == "-new game-":
         window["-COL2-"].update(visible=True)
         current_time = time.time()
     if event in be.cards:
         window.read(timeout=100)
-        window[event].update(button_color="white")
+        window[event].update(image_filename="white.png")
         if previous_event:
-            window[previous_event].update(button_color="white")
+            window[previous_event].update(image_filename="white.png")
 
             if be.cards[event] == be.cards[previous_event] and event != previous_event:
                 score += 1
                 window[previous_event].update(disabled=True)
                 window[event].update(disabled=True)
-                window[event].update(button_color=be.cards[event])
-                window[previous_event].update(button_color=be.cards[event])
+                window[event].update(image_filename=be.cards[event])
+                window[previous_event].update(image_filename=be.cards[event])
                 previous_event = None
             else:
-                window[event].update(button_color=be.cards[event])
-                window.read(timeout=400)
-                window[event].update(button_color="white")
+                window[event].update(image_filename=be.cards[event])
+                window.read(timeout=555)
+                window[event].update(image_filename="white.png")
                 previous_event = None
+
         else:
-            window[event].update(disabled=True)
             previous_event = event
-            window[event].update(button_color=be.cards[event])
+            window[event].update(image_filename=be.cards[event])
 
     if score == 8:
         finish_time = time.time()
         total_time = finish_time - current_time
         laikas = f"{total_time:.2f}"
-        sg.popup(f"Sveikiname jus laimejote, jusu laikas: {laikas} sec")
+        scorer_name = sg.popup_get_text(f"Sveikiname, jus įveikėte delionę, jūsų laikas: {laikas} sec \nĮveskite savo vardą:")
         score = 0
-        highscores.append(laikas)
+        # json code
+        highscoress = {}
+        with open("highscores.json", "r") as json_file:
+                highscoress = json.load(json_file)
+
+        highscoress[laikas] = scorer_name
+        with open("highscores.json", "w") as json_file:
+            json.dump(highscoress, json_file)
+        #highscores.append(laikas)
     if event == "-hs-":
-        for a in highscores:
-            print(a)
+        # for a in highscores:
+        #     print(a)
+        # json code
+        # sitas isclearina langa
+        window["-output-"].update('')
+        # try naudojamas kai nera irasu, kad neuzsikrashintu programa
+        # cia nuskaitomas json failas ir isrusiuojami atsakymai
+        try:
+            with open("highscores.json", "r") as json_file:
+                highscoress = json.load(json_file)
+            sorted_highscores = {}
+            for index in sorted(highscoress):
+                sorted_highscores[index]=highscoress[index]
+            be.sort_highscores(sorted_highscores)
+        except Exception as e:
+            pass
     if event == sg.WINDOW_CLOSED or event == "-EXIT-":
         break
 
